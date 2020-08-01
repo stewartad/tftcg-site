@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Custom Cards</title>
+</head>
+<body>
+    {% if side_list %}
+        {% for side in side_list %}
+            {% if side.image %}
+                <img src="{{ side.image.url }}">
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Custom Cards</title>
+</head>
+<body>
+    {% if card_list %}
+        <ul>
+        {% for card in card_list %}
+            <li><a href="{% url 'detail' card.id %}">{{ card.name }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No cards are available.</p>
+    {% endif %}
+</body>
+</html>
