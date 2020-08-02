@@ -5,3 +5,4 @@ from .models import *
 admin.site.register(CharacterCard)
 admin.site.register(CharacterSide)
 admin.site.register(CharacterTrait)
+admin.site.register(StratagemCard)

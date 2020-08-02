@@ -5,14 +5,21 @@
     <title>Custom Cards</title>
 </head>
 <body>
-    {% if card_list %}
+    {% if char_list %}
+        <h2>Character</h2>
         <ul>
-        {% for card in card_list %}
-            <li><a href="{% url 'detail' card.id %}">{{ card.name }}</a></li>
+        {% for card in char_list %}
+            <li><a href="{% url 'char_detail' card.id %}">{{ card.name }}</a></li>
         {% endfor %}
         </ul>
-    {% else %}
-        <p>No cards are available.</p>
+    {% endif %}
+    {% if strat_list %}
+        <h2>Stratagems</h2>
+        <ul>
+        {% for card in strat_list %}
+            <li><a href="{% url 'strat_detail' card.id %}">{{ card.name }}</a></li>
+        {% endfor %}
+        </ul>
     {% endif %}
 </body>
 </html>

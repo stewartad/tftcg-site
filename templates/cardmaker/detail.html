@@ -11,6 +11,8 @@
                 <img src="{{ side.image.url }}">
             {% endif %}
         {% endfor %}
+    {% elif card %}
+        <img src="{{ card.image.url }}">
     {% endif %}
 </body>
 </html>

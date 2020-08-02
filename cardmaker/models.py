@@ -44,11 +44,16 @@ MODES = [
     ('CMB', 'Combiner Body Mode')
 ]
 
-class CharacterCard(models.Model):
+class Card(models.Model):
     name = models.CharField(max_length=60)
+    stars = models.IntegerField()
+
+    class Meta:
+        abstract = True
+
+class CharacterCard(Card):
     subtitle = models.CharField(max_length=60)
     health = models.IntegerField()
-    stars = models.IntegerField()
     faction = models.CharField(max_length=2, choices=FACTIONS)
 
     def __str__(self):
@@ -89,11 +94,41 @@ class CharacterSide(models.Model):
         tmp_path = os.path.join(settings.MEDIA_ROOT, 'tmp', filename)
         with open(tmp_path, 'wb+') as f:
             card_img.save(f, format='png')
-            self.image.save(filename, File(f), save=True)
+            self.image.save(filename, File(f), save=False)
         # os.remove(tmp_path)
 
     def save(self, *args, **kwargs):
+        if self.pk is None:
+            super().save(*args, **kwargs)
+        self.generateImage()
         super().save(*args, **kwargs)
 
     def __str__(self):
         return '%d %s %s' % (self.id, self.charactercard.subtitle, self.mode)
+
+class StratagemCard(Card):
+    target=models.CharField(max_length=60)
+    card_text = models.CharField(max_length=360)
+    art = models.ImageField(upload_to='art', blank=True, null=True)
+    image = models.ImageField(upload_to='cards', null=True, editable=False)
+
+    def generateImage(self):
+        card = {
+            'name': self.name,
+            'target': self.target,
+            'card_text': self.card_text,
+            'stars': self.stars,
+        }
+        card_img = CardImage('stratagem', card).draw_image()
+        filename = 's%d.png' % self.id
+        tmp_path = os.path.join(settings.MEDIA_ROOT, 'tmp', filename)
+        with open(tmp_path, 'wb+') as f:
+            self.image.delete(save=False)
+            card_img.save(f, format='png')
+            self.image.save(filename, File(f), save=False)
+
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            super().save(*args, **kwargs)
+        self.generateImage()
+        super().save(*args, **kwargs)

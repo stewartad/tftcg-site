@@ -20,6 +20,7 @@ def_pos = (426, stat_y)
 stat_height = 32
 text_pos = (44, 563)
 
+name_path = os.path.join(resource_dir, "SmartSansStd-Bold.otf")
 
 class CardImage:
     def __init__(self, card_type, card_info):
@@ -34,7 +35,42 @@ class CardImage:
             self.card.draw_subtitle(self.card_info['subtitle'])
             self.card.draw_stats(self.card_info['atk'], self.card_info['def'], self.card_info['hp'])
             self.card.draw_card_text(self.card_info['card_text'])
+        elif self.card_type == 'stratagem':
+            self.card = StratCard(self.card_info['name'], self.card_info['target'],
+                                  self.card_info['card_text'], self.card_info['stars'])
+            self.card.draw()
         return self.card.image
+
+class StratCard:
+    def __init__(self, name, target, text, stars):
+        self.positions = {
+            'name': (40, 43),
+            'target': (58, 99),
+            'card_text': (36, 517),
+            'star': (20, 712)
+        }
+        self.dimensions = {
+            'name': (461, 38),
+            'target': (428, 17),
+            'card_text': (475, 157),
+            'star': (29, 27)
+        }
+        self.name_font = ImageFont.truetype(font=name_path, size=self.dimensions['name'][1])
+        self.text_font = ImageFont.truetype(font='gadugi.ttf', size=12)
+        self.name = name
+        self.target = target
+        self.text = text
+        self.stars = stars
+        template = os.path.join(resource_dir, "strat_blank.png")
+        self.image = Image.open(template)
+        self.drawer = ImageDraw.Draw(self.image)
+
+    def draw(self):
+        name_str = str.upper(self.name)
+        self.drawer.text(self.positions['name'], name_str, fill='white',  font=self.name_font)
+        target_str = str.upper(self.target)
+        self.drawer.text(self.positions['target'], target_str, fill='black', font=self.text_font)
+        self.drawer.text(self.positions['card_text'], self.text, fill='black', font=self.text_font)
 
 class CharCard():
     def __init__(self, faction, size='large'):
@@ -46,7 +82,7 @@ class CharCard():
         self.image = Image.open(template)
         self.drawer = ImageDraw.Draw(self.image)
 
-        name_path = os.path.join(resource_dir, "SmartSansStd-Bold.otf")
+
         text_path = os.path.join(resource_dir, "Ultramagnetic.ttf")
         self.name_font = ImageFont.truetype(font=name_path, size=name_height)
         # self.text_font = ImageFont.truetype(font=text_path, size=sub_height)
@@ -69,10 +105,3 @@ class CharCard():
     def draw_card_text(self, text):
         new_text = textwrap.fill(text, width=65)
         self.drawer.text(text_pos, new_text, fill="black", font=self.text_font)
-
-    # def generate(self):
-    #     filename = str(uuid.uuid4()) + ".png"
-    #
-    #     out_path = os.path.join("media", "characters", filename)
-    #     self.image.save(out_path, format='png')
-    #     return os.path.join(settings.MEDIA_URL, "characters", filename)
