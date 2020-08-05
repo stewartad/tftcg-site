@@ -1,8 +1,7 @@
-from django.shortcuts import render
-
 from django.shortcuts import get_object_or_404, render
 from django.template import loader
 from django.http import HttpResponse
+from django.views import generic
 
 from .models import CharacterCard, Card, StratagemCard
 
@@ -17,17 +16,18 @@ def index(request):
     }
     return HttpResponse(template.render(context, request))
 
-def char_detail(request, card_id):
-    card = get_object_or_404(CharacterCard, pk=card_id)
-    context = {}
-    sides = list(card.characterside_set.all())
-    context['side_list']=sides
+class StratagemDetail(generic.DetailView):
+    model = StratagemCard
+    template_name='cardmaker/stratagem_detail.html'
+    context_object_name = 'card'
 
-    return render(request, 'cardmaker/detail.html', context)
+class CharacterDetail(generic.DetailView):
+    model = CharacterCard
+    template_name = 'cardmaker/character_detail.html'
 
-def strat_detail(request, card_id):
-    card = get_object_or_404(StratagemCard, pk=card_id)
-    context = {}
-    context['card']=card
-
-    return render(request, 'cardmaker/detail.html', context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        self.card = get_object_or_404(CharacterCard, id=self.kwargs['pk'])
+        context['card'] = self.card
+        context['side_list'] = self.card.characterside_set.all()
+        return context

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ card.name }} - Stratagem</title>
+</head>
+<body>
+    <p>
+        <a href="/cardmaker">Back</a>
+    </p>
+    {% if card.image %}
+        <img src="{{ card.image.url }}">
+    {% endif %}
+</body>
+</html>
