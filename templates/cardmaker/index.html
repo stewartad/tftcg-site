@@ -15,6 +15,7 @@
     {% endif %}
     {% if strat_list %}
         <h2>Stratagems</h2>
+        <a href="{% url 'strat_create' %}">Add</a>
         <ul>
         {% for card in strat_list %}
             <li><a href="{% url 'strat_detail' card.id %}">{{ card.name }}</a></li>

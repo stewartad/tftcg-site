@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% if card %}
+        <title>Edit Stratagem - {{ card.name }}</title>
+    {% else %}
+        <title>New Stratagem</title>
+    {% endif %}
+</head>
+<body>
+    {% if card %}
+        <form action="{% url 'strat_edit' card.id %}" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Submit">
+        </form>
+    {% else %}
+        <form action="{% url 'strat_create' %}" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Submit">
+        </form>
+    {% endif %}
+</body>
+</html>

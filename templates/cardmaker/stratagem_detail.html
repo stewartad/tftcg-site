@@ -5,9 +5,10 @@
     <title>{{ card.name }} - Stratagem</title>
 </head>
 <body>
-    <p>
-        <a href="/cardmaker">Back</a>
-    </p>
+    <ul>
+        <li><a href="{% url 'index' %}">Back</a></li>
+        <li><a href="{% url 'strat_edit' card.id %}">Edit</a></li>
+    </ul>
     {% if card.image %}
         <img src="{{ card.image.url }}">
     {% endif %}

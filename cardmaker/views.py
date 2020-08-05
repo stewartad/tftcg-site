@@ -1,7 +1,8 @@
 from django.shortcuts import get_object_or_404, render
 from django.template import loader
-from django.http import HttpResponse
-from django.views import generic
+from django.http import HttpResponse, HttpResponseRedirect
+from django.views import generic, View
+from django.forms import modelformset_factory, modelform_factory
 
 from .models import CharacterCard, Card, StratagemCard
 
@@ -31,3 +32,39 @@ class CharacterDetail(generic.DetailView):
         context['card'] = self.card
         context['side_list'] = self.card.characterside_set.all()
         return context
+
+class EditStratagem(View):
+    form_class = modelform_factory(StratagemCard, fields='__all__')
+    initial = {'key': 'value'}
+    template_name = 'cardmaker/stratagem_form.html'
+
+    def get(self, request, *args, **kwargs):
+        self.card = get_object_or_404(StratagemCard, id=self.kwargs['pk'])
+        form = self.form_class(instance=self.card)
+        return render(request, self.template_name, {'form': form, 'card': self.card})
+
+    def post(self, request, *args, **kwargs):
+        self.card = get_object_or_404(StratagemCard, id=self.kwargs['pk'])
+        form = self.form_class(request.POST, instance=self.card)
+        if form.is_valid():
+            self.card = form.save()
+            return HttpResponseRedirect('/cardmaker/stratagems/%d' % self.card.id)
+
+        return render(request, self.template_name, {'form': form, 'card': self.card})
+
+class CreateStratagem(View):
+    form_class = modelform_factory(StratagemCard, fields='__all__')
+    initial = {'key': 'value'}
+    template_name = 'cardmaker/stratagem_form.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            self.card = form.save()
+            return HttpResponseRedirect('/cardmaker/stratagems/%d' % self.card.id)
+
+        return render(request, self.template_name, {'form': form})
