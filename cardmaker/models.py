@@ -1,7 +1,9 @@
 from django.db import models
+
 from cardgenerator.cardgen import CardImage
 from django.conf import settings
 from django.core.files import File
+from django.urls import reverse
 import os
 
 FACTIONS = [
@@ -55,6 +57,9 @@ class CharacterCard(Card):
     subtitle = models.CharField(max_length=60)
     health = models.IntegerField()
     faction = models.CharField(max_length=2, choices=FACTIONS)
+
+    def get_absolute_url(self):
+        return reverse('char_detail', args=[str(self.id)])
 
     def __str__(self):
         return '%s %s' % (self.name, self.subtitle)
@@ -127,8 +132,14 @@ class StratagemCard(Card):
             card_img.save(f, format='png')
             self.image.save(filename, File(f), save=False)
 
+    def get_absolute_url(self):
+        return reverse('strat_detail', args=[str(self.id)])
+
     def save(self, *args, **kwargs):
         if self.pk is None:
             super().save(*args, **kwargs)
         self.generateImage()
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return '%s (%s)' % (self.name, self.target)
