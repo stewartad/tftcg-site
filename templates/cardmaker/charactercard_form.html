@@ -2,25 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    {% if card %}
-        <title>Edit Character - {{ card.name }}</title>
+    {% if object %}
+        <title>Edit Character - {{ object.name }}</title>
     {% else %}
         <title>New Character</title>
     {% endif %}
 </head>
 <body>
-    {% if card %}
-        <form action="{% url 'char_edit' card.id %}" method="post">
-            {% csrf_token %}
-            {{ form }}
-            <input type="submit" value="Submit">
-        </form>
-    {% else %}
-        <form action="{% url 'char_create' %}" method="post">
-            {% csrf_token %}
-            {{ form }}
-            <input type="submit" value="Submit">
-        </form>
-    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <h2>Character Info</h2>
+        {{ form.as_p }}
+        <h2>Modes</h2>
+        {{ sides.management_form }}
+        {{ sides.as_p }}
+        <input type="submit" value="Submit">
+    </form>
 </body>
 </html>
