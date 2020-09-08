@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic, View
 from django.forms import modelformset_factory, modelform_factory, inlineformset_factory
 
+from .forms import CharacterModeFormSet, CharacterModeForm
 from .models import Character, Card, StratagemCard, CharacterMode
 
 
@@ -32,52 +33,56 @@ class CharacterDetail(generic.DetailView):
         context = super().get_context_data(**kwargs)
         self.card = get_object_or_404(Character, id=self.kwargs['pk'])
         context['card'] = self.card
-        context['side_list'] = self.card.characterside_set.all()
+        context['side_list'] = self.card.charactermode_set.all()
         return context
 
 
 class CreateCharacter(generic.CreateView):
     model = Character
     fields = '__all__'
+    form = CharacterModeForm
 
-    # def get_context_data(self, **kwargs):
-    #     data = super(CreateCharacter, self).get_context_data(**kwargs)
-    #     if self.request.POST:
-    #         data['sides'] = CharacterSideFormSet(self.request.POST)
-    #     else:
-    #         data['sides'] = CharacterSideFormSet()
-    #     return data
+    def get_context_data(self, **kwargs):
+        data = super(CreateCharacter, self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['modes'] = CharacterModeFormSet(self.request.POST, self.request.FILES)
+        else:
+            data['modes'] = CharacterModeFormSet()
+        return data
 
-    # def post(self, request, *args, **kwargs):
-    #     form = self.get_form()
-    #     if form.is_valid:
-    #         form.save()
-    #     formset = CharacterSideFormSet(request.POST)
-    #     if formset.is_valid():
-    #         formset.save()
-    #     return super(CreateCharacter, self).post(request, *args, **kwargs)
-
-
-
+    def form_valid(self, form):
+        context = self.get_context_data()
+        modes = context['modes']
+        with transaction.atomic():
+            self.object = form.save()
+            if modes.is_valid():
+                modes.instance = self.object
+                modes.save()
+        return super(CreateCharacter, self).form_valid(form)
 
 class EditCharacter(generic.UpdateView):
     model = Character
     fields = '__all__'
+    form = CharacterModeForm
 
+    def get_context_data(self, **kwargs):
+        data = super(EditCharacter, self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['modes'] = CharacterModeFormSet(self.request.POST, self.request.FILES, instance=self.object)
+        else:
+            data['modes'] = CharacterModeFormSet(instance=self.object)
+        return data
 
-    # def get_context_data(self, **kwargs):
-    #     data = super(EditCharacter, self).get_context_data(**kwargs)
-    #     if self.request.POST:
-    #         data['sides'] = CharacterSideFormSet(self.request.POST, instance=self.object)
-    #     else:
-    #         data['sides'] = CharacterSideFormSet(instance=self.object)
-    #     return data
+    def form_valid(self, form):
+        context = self.get_context_data()
+        modes = context['modes']
+        with transaction.atomic():
+            self.object = form.save()
+            if modes.is_valid():
+                modes.instance = self.object
+                modes.save()
+        return super(EditCharacter, self).form_valid(form)
 
-    # def post(self, request, *args, **kwargs):
-    #     formset = CharacterSideFormSet(request.POST)
-    #     if formset.is_valid():
-    #         formset.save()
-    #     return super(EditCharacter, self).post(request, *args, **kwargs)
 
 
 class EditStratagem(generic.UpdateView):

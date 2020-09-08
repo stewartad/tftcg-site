@@ -1,14 +1,16 @@
-from django.forms import BaseModelFormSet, ModelForm, modelformset_factory, inlineformset_factory
-from cardmaker.models import StratagemCard
+from django.forms import ModelForm, inlineformset_factory
+from cardmaker.models import StratagemCard, Character, CharacterMode
 
-# class CharacterSideForm(ModelForm):
-#
-#     class Meta:
-#         model = CharacterSide
-#         exclude = ()
-#
-# CharacterSideFormSet = inlineformset_factory(CharacterCard, CharacterSide,
-#                                              fields='__all__', can_delete=True, max_num=2, extra=2)
+
+class CharacterModeForm(ModelForm):
+
+    class Meta:
+        model = CharacterMode
+        exclude = ()
+
+
+CharacterModeFormSet = inlineformset_factory(Character, CharacterMode,
+                fields='__all__', can_delete=True, max_num=3, extra=1)
 
 class StratagemForm(ModelForm):
 

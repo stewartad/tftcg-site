@@ -9,13 +9,13 @@
     {% endif %}
 </head>
 <body>
-    <form method="post">
+    <form enctype="multipart/form-data" method="post">
         {% csrf_token %}
         <h2>Character Info</h2>
         {{ form.as_p }}
         <h2>Modes</h2>
-        {{ sides.management_form }}
-        {{ sides.as_p }}
+{#        {{ modes.management_form }}#}
+        {{ modes.as_p }}
         <input type="submit" value="Submit">
     </form>
 </body>

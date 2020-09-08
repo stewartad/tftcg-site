@@ -52,7 +52,7 @@ class Card(models.Model):
     stars = models.IntegerField()
     card_text = models.CharField(max_length=360)
     art = models.ImageField(upload_to='art', blank=True, null=True)
-    image = image = models.ImageField(null=True, editable=False)
+    image = models.ImageField(null=True, editable=False)
 
     def generate_image(self):
         pass
@@ -103,7 +103,7 @@ class CharacterMode(Card):
             'hp': self.character.health,
             'traits': self.traits,
             'card_text': self.card_text,
-            'art': self.art.url
+            'art': self.art.path
         }
         card_img = CardImage('character', card).draw_image()
         filename = 'c%d.png' % self.id

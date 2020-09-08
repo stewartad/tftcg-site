@@ -11,7 +11,7 @@
     {% if char_list %}
         <ul>
         {% for card in char_list %}
-            <li><a href="{% url 'char_detail' card.id %}">{{ card.name }}</a></li>
+            <li><a href="{% url 'char_detail' card.id %}">{{ card }}</a></li>
         {% endfor %}
         </ul>
     {% else %}
@@ -23,7 +23,7 @@
     {% if strat_list %}
         <ul>
         {% for card in strat_list %}
-            <li><a href="{% url 'strat_detail' card.id %}">{{ card.name }}</a></li>
+            <li><a href="{% url 'strat_detail' card.id %}">{{ card }}</a></li>
         {% endfor %}
         </ul>
     {% else %}
