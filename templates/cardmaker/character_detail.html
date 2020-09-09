@@ -2,17 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Custom Cards</title>
+    <title>{{ card.name }}, {{ card.subtitle }} - Characters</title>
 </head>
 <body>
+    <ul>
+        <li><a href="{% url 'index' %}">Back</a></li>
+        <li><a href="{% url 'char_edit' card.id %}">Edit</a></li>
+    </ul>
     {% if side_list %}
         {% for side in side_list %}
             {% if side.image %}
                 <img src="{{ side.image.url }}">
             {% endif %}
         {% endfor %}
-    {% elif card %}
-        <img src="{{ card.image.url }}">
     {% endif %}
 </body>
 </html>

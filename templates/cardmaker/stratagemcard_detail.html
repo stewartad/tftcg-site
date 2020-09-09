@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ card.name }} - Stratagem</title>
+</head>
+<body>
+    <ul>
+        <li><a href="{% url 'index' %}">Back</a></li>
+        <li><a href="{% url 'strat_edit' card.id %}">Edit</a></li>
+    </ul>
+    {% if card.image %}
+        <img src="{{ card.image.url }}">
+    {% endif %}
+</body>
+</html>

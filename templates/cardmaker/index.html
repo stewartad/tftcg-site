@@ -5,21 +5,29 @@
     <title>Custom Cards</title>
 </head>
 <body>
+
+    <h2>Characters</h2>
+    <a href="{% url 'char_create' %}">Add</a>
     {% if char_list %}
-        <h2>Character</h2>
         <ul>
         {% for card in char_list %}
-            <li><a href="{% url 'char_detail' card.id %}">{{ card.name }}</a></li>
+            <li><a href="{% url 'char_detail' card.id %}">{{ card }}</a></li>
         {% endfor %}
         </ul>
+    {% else %}
+        <p>No characters to display.</p>
     {% endif %}
+
+    <h2>Stratagems</h2>
+    <a href="{% url 'strat_create' %}">Add</a>
     {% if strat_list %}
-        <h2>Stratagems</h2>
         <ul>
         {% for card in strat_list %}
-            <li><a href="{% url 'strat_detail' card.id %}">{{ card.name }}</a></li>
+            <li><a href="{% url 'strat_detail' card.id %}">{{ card }}</a></li>
         {% endfor %}
         </ul>
+    {% else %}
+        <p>No stratagems to display.</p>
     {% endif %}
 </body>
 </html>
