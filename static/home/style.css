@@ -1,0 +1,43 @@
+
+body {
+    background-color: #2f4f4f;
+    font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+    color: white;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+div#nav {
+    /*float: right;*/
+}
+
+div#nav ul {
+    list-style-type: none;
+}
+
+div#nav li {
+    display: inline;
+    margin: 0 10px 0 10px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:link, a:visited {
+    color: #7ccd7c;
+}
+
+a:hover {
+    color: #eec900;
+    text-decoration: underline;
+}
+
+#sidebar {
+    float: left;
+    width: 30%;
+}
+
+#content {
+    float: left;
+}

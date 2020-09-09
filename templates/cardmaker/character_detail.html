@@ -1,20 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ card.name }}, {{ card.subtitle }} - Characters</title>
-</head>
-<body>
-    <ul>
-        <li><a href="{% url 'index' %}">Back</a></li>
-        <li><a href="{% url 'char_edit' card.id %}">Edit</a></li>
-    </ul>
-    {% if side_list %}
-        {% for side in side_list %}
-            {% if side.image %}
-                <img src="{{ side.image.url }}">
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+<ul>
+    <li><a href="{% url 'index' %}">Back</a></li>
+    <li><a href="{% url 'char_edit' card.id %}">Edit</a></li>
+</ul>
+{% if side_list %}
+    {% for side in side_list %}
+        {% if side.image %}
+            <img src="{{ side.image.url }}">
+        {% endif %}
+    {% endfor %}
+{% endif %}
+{% endblock %}

@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ card.name }} - Stratagem</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}
+    {{ card.name }} - Stratagem
+{% endblock %}
+{% block content %}
     <ul>
         <li><a href="{% url 'index' %}">Back</a></li>
         <li><a href="{% url 'strat_edit' card.id %}">Edit</a></li>
     </ul>
     {% if card.image %}
-        <img src="{{ card.image.url }}">
+        <img src="{{ card.image.url }}" alt="Card Image">
     {% endif %}
-</body>
-</html>
+{% endblock %}

@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Custom Cards</title>
-</head>
-<body>
+{% extends "base.html" %}
 
+{% block title %}
+    Custom Cards
+{% endblock %}
+
+{% block content %}
     <h2>Characters</h2>
     <a href="{% url 'char_create' %}">Add</a>
     {% if char_list %}
@@ -29,5 +28,4 @@
     {% else %}
         <p>No stratagems to display.</p>
     {% endif %}
-</body>
-</html>
+{% endblock %}

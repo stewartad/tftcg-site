@@ -1,18 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% extends "base.html" %}
+{% block title %}
     {% if card %}
-        <title>Edit Stratagem - {{ card.name }}</title>
+        Edit Stratagem - {{ card.name }}
     {% else %}
-        <title>New Stratagem</title>
+        New Stratagem
     {% endif %}
-</head>
-<body>
+{% endblock %}
+{% block content %}
         <form enctype="multipart/form-data" method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <input type="submit" value="Submit">
         </form>
-</body>
-</html>
+{% endblock %}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static "home/style.css" %}">
+    <title>{% block title %}TFTCG Community{% endblock %}</title>
+</head>
+
+<body>
+    <div id="header">
+        <h1>TFTCG Card Maker</h1>
+        <div id="nav">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/cardmaker">Cards</a></li>
+                <li><a href="/admin">Admin</a></li>
+            </ul>
+        </div>
+
+        {% if user.is_authenticated %}
+            <p>Welcome, {{ user.username }}. Thanks for logging in.</p>
+        {% else %}
+            <p>Welcome, new user. Please <a href="/accounts/login">Login</a></p>
+        {% endif %}
+    </div>
+    <div id="sidebar">
+        {% block sidebar %}
+
+        {% endblock %}
+    </div>
+
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
