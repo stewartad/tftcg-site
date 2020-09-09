@@ -38,6 +38,15 @@ a:hover {
     width: 30%;
 }
 
-#content {
+div#content {
     float: left;
+}
+
+div#content ul {
+    list-style-type: none;
+}
+
+div#actions li {
+    display: inline;
+    margin: 0 10px 0 10px;
 }

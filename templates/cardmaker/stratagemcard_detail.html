@@ -3,11 +3,13 @@
     {{ card.name }} - Stratagem
 {% endblock %}
 {% block content %}
-    <ul>
-        <li><a href="{% url 'index' %}">Back</a></li>
-        <li><a href="{% url 'strat_edit' card.id %}">Edit</a></li>
-    </ul>
     {% if card.image %}
         <img src="{{ card.image.url }}" alt="Card Image">
     {% endif %}
+    <div id="actions">
+        <ul>
+            <li><a href="{% url 'index' %}">Back</a></li>
+            <li><a href="{% url 'strat_edit' card.id %}">Edit</a></li>
+        </ul>
+    </div>
 {% endblock %}
